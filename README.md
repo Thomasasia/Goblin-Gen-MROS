@@ -1,3 +1,5 @@
+[You can use the webpage here](https://thomasasia.github.io/Goblin-Gen-MROS/)
+
 This is a simple website to generate goblin characters for the tabletop RPG [Many Rats On Sticks aka GLOG v2](https://coinsandscrolls.blogspot.com/2019/10/osr-glog-based-homebrew-v2-many-rats-on.html).
 
 It will generate the stats for a levl 1 character, as goblins are particuarly likely to die during a gaming session. This website greatly expidites the process.

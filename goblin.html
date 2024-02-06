@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Goblin</title>
+</head>
+<body>
+  <h1 id="goblinTitle">Random Goblin</h1>
+  <button onclick="regenerateName()">Regenerate Name</button>
+  <div id="output"></div>
+  <script>
+    
+
+    // min 0
+    function randomInt(max){
+        var array = new Uint8Array(4);
+        window.crypto.getRandomValues(array);
+        // Generate a buffer of 4 random bytes (32-bit integer)
+        var randomi = (array[0] << 24) | (array[1] << 16) | (array[2] << 8) | array[3];
+        roll = Math.abs(randomi) % max;
+        return roll;
+    };
+    // dice have min 1
+    function diceRoll(max){
+        return randomInt(max) + 1;
+    };
+    function statRoll(){
+        return diceRoll(6) + diceRoll(6) + diceRoll(6);
+    };
+    function generateBonus(statVal){
+        var ret = 0;
+        if (statVal > 25) ret = 5;
+        else ret = Math.floor((statVal-9)/3);
+        return ret;
+    };
+    function capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }  
+    function generateSyllables() {
+        const vowels = ['a', 'e', 'i', 'o', 'u', 'ee', 'oo', 'ea', 'ai', 'oi']; // Including long and short vowels
+        const consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'];
+        const syllables = [];
+
+        // Single vowel syllables
+        for (let vowel of vowels) {
+            syllables.push(vowel);
+        }
+
+        // Consonant-vowel combinations
+        for (let consonant of consonants) {
+            for (let vowel of vowels) {
+                syllables.push(consonant + vowel);
+                // Consonant + Vowel + Consonant combinations
+                for (let secondConsonant of consonants) {
+                    syllables.push(consonant + vowel + secondConsonant);
+                    syllables.push(vowel + consonant)
+                }
+            }
+        }
+
+        return syllables;
+    }
+    const honorificsList = [
+        "Sir",
+        "Mr.",
+        "Monsieur",
+        "Señor",
+        "Lord",
+        "Captain",
+        "Doctor",
+        "Professor",
+        "Father",
+        "Brother",
+        "Uncle",
+        "Master",
+        "Emperor",
+        "Chief",
+        "King",
+        "Conductor",
+        "Sheriff",
+        "Pope"
+    ];
+
+    const adjectivesList = [
+        "Cunning",
+        "Sneaky",
+        "Vicious",
+        "Malicious",
+        "Devious",
+        "Nasty",
+        "Tricky",
+        "Wily",
+        "Crafty",
+        "Sly",
+        "Grubby",
+        "Filthy",
+        "Slimy",
+        "Warty",
+        "Gnarled",
+        "Ugly",
+        "Foul",
+        "Repulsive",
+        "Putrid",
+        "Fierce",
+        "Greedy",
+        "Sinister",
+        "Gloomy",
+        "Grimy",
+        "Stinky",
+        "Smelly",
+        "Rotten",
+        "Malevolent",
+        "Nefarious",
+        "Malignant",
+        "Spiteful",
+        "Wicked",
+        "Cruel",
+        "Twisted",
+        "Wretched",
+        "Goofy",
+        "Quirky",
+        "Foolish",
+        "Wacky",
+        "Bumbling",
+        "Clumsy",
+        "Awkward",
+        "Nutty",
+        "Giddy",
+        "Giggly",
+        "Laughing",
+        "Smirking",
+        "Winking",
+        "Snickering",
+        "Jolly",
+        "Mischievous",
+        "Cheeky",
+        "Saucy",
+        "Capricious",
+        "Carefree",
+        "Irreverent",
+        "Spirited",
+        "Eccentric",
+        "Offbeat",
+        "Off-kilter",
+        "Whacky",
+        "Crazy",
+        "Gay",
+        "Weird",
+        "Dickish",
+        "Asinine",
+        "Erotic",
+        "Killer",
+        "Crazy-Eye",
+        "Crazy-Cock",
+        "Megapenis",
+        "Chad",
+        "Doctor",
+        "Fat",
+        "Obese",
+        "Cummy",
+        "Bad",
+        "Big",
+        "Poopy",
+        "Bizarre"
+        ];
+    const nickAdjList = [
+        "Big",
+        "Bad",
+        "Ugly",
+        "Poopy",
+        "Cummy",
+        "Shitty",
+        "Stanky",
+        "Smelly",
+        "Yucky",
+        "Pissy",
+        "Womby",
+        "Woompis",
+        "Fibly",
+        "Stabby"
+    ];
+    const nickNounList = [
+        "Shoo",
+        "Hat",
+        "Foot",
+        "Ass",
+        "Cunt",
+        "Smell",
+        "Butt",
+        "Toes",
+        "Tongue",
+        "Dick",
+        "Dog",
+        "Beetle",
+        "Foob",
+        "Bombis",
+        "Blade",
+        "Stab",
+        "Pee",
+    ];
+
+    function generateName(){
+        const syllableList = generateSyllables();
+        var name = "";
+        var honorific = "";
+        var adjective = "";
+        var nickname = "";
+        var home = "";
+
+        name = syllableList[randomInt(syllableList.length)];
+        if (randomInt(2) == 0){ // 50% chance of double name
+            name += syllableList[randomInt(syllableList.length)];
+        }
+        name += " "
+        name = capitalizeFirstLetter(name);
+
+        if (randomInt(4) == 0){ // 25% chance of an adjective
+            adjective = adjectivesList[randomInt(adjectivesList.length)] + " ";
+        }
+
+        if (randomInt(4) == 0){ // 25% chance of an honorific
+            honorific = honorificsList[randomInt(honorificsList.length)] + " ";
+        }
+        if (randomInt(3) == 0){
+            if (randomInt(2) == 0){ // 50% chance of double name
+                nickname += nickAdjList[randomInt(nickAdjList.length)] + " ";
+            }
+            if (randomInt(3) > 0){ // 66% chance of double name
+                nickname += nickNounList[randomInt(nickNounList.length)];
+            }
+            if (nickname.length > 0){
+                nickname = capitalizeFirstLetter(nickname);
+                nickname = "\"" + nickname + "\" ";
+            }
+        }
+        if (randomInt(4) == 0){ // 25% chance of home
+            home = "of " + capitalizeFirstLetter(syllableList[randomInt(syllableList.length)]);
+            if (randomInt(2) == 0){ // 50% chance of double name
+                home += syllableList[randomInt(syllableList.length)] + " ";
+            }
+        }
+
+        return honorific + adjective + name + nickname + home
+    };
+    function regenerateName(){
+        document.getElementById("goblinTitle").textContent = generateName();
+    }
+
+    
+    // Set the title to a random goblin name when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("goblinTitle").textContent = generateName();
+    });
+    // Set up the variables
+    var str = statRoll();
+    var dex = Math.max(statRoll(), statRoll());
+    var con = statRoll();
+    var int = Math.floor(statRoll() / 2);
+    var wis = statRoll();
+    var chr = statRoll();
+    var hp = Math.max(Math.floor((con - 4) / 2), 1); // min 1
+    const perks = [
+        "Good Guts: +2 HP, no poison eats.",
+        "Good Brains: +2 Int, learn random little wizard spell.",
+        "Good Face: +2 Chisma. Big big smile grin, ear to ear. Big eyes.",
+        "Good Ears: +2 Wisdum, not never sneaked up on.",
+        "Good Sneaks: +2 Dexty, +4 Stealth. So sneaks.",
+        "Good Punch: +2 Strangth, +2 Attack stat. Like to Fight. Fight you.",
+        "More TEEF: Mouth is daggers now. Can chew rocks, sticks.",
+        "Not Dead: Fatal Woonds go away on 1, 2, or 3, not just 1.",
+        "Beetle Friend: Can ride it. If dead, is sad, find new beetle next day.",
+        "Sticky: +4 climb. Easy climb but things get gummed up.",
+        "Weird Goblan: Newtate one time.",
+        "Ankle Bite: If fight thing bigger than you, 1 Attack a Round.",
+        "Goblin Friend: Is good. Mebe make more goblans? If dead, sad, but find new friend next day.",
+        "Bug Barf: One time in day, barf up big sack of spider, worms.",
+        "Wut?: Never afraids. No thinks to read or control.",
+        "Lucky Goblan: +2 Save. Also, one time in day, reroll big round dice.",
+        "New Stuff: If lost arm or leg, grows back in some days.",
+        "No Squish: If fall, no die. Bounce instead.",
+        "Ooze Friend: Little squishy friend. No acid or guts or ooze hurt you.",
+        "Greasy: Can no be tied up or grabbled."
+    ];
+    var skill = diceRoll(20);
+    var attack = 11;
+    var defense = 10 + generateBonus(dex);
+    var movement = 12 + generateBonus(dex);
+    var stealth = 5 + generateBonus(dex);
+    var save = 5 + generateBonus(chr);
+
+
+
+
+    // Display the output
+    document.getElementById("output").innerHTML =
+      "<h2>Stats : </h2>" +
+      "<p>STR: " + str +     " (" + generateBonus(str) + ")</p>" +
+      "<p>DEX: " + dex +    " (" + generateBonus(dex) + ")</p>" +
+      "<p>CON: " + con + " (" + generateBonus(con) + ")</p>" +
+      "<p>INT:  " + int + " (" + generateBonus(int) + ")</p>" +
+      "<p>WIS: " + wis +       " (" + generateBonus(wis) + ")</p>" +
+      "<p>CHR: " + chr +     " (" + generateBonus(chr) + ")</p>" +
+      "<h2>Associated Numbers : </h2>" + 
+      "<p>HP :  " + hp +     "</p>" +
+      "<p>Defense: " + defense +     "</p>" +
+      "<p>Movement: " + movement +     "</p>" +
+      "<p>Stealth: " + stealth +     "</p>" +
+      "<p>Save: " + save +     "</p>" +
+      "<h2>Skills & Abilities: </h2>" + 
+      "<p>" + perks[skill] +    " (Stat changes not applied)</p>" +
+      "<p>Speak in words of 2 syllables or fewer.</p>Can see/smell 20 feet in the dark.<p>" + 
+      "<h2>Start Stuff : </h2><p>Daggar</p><p>Bad pants</p><p>One shoo</p>" + 
+      "<h2>Start Know:</h2><p>Goblan</p>";
+  </script>
+</body>
+</html>

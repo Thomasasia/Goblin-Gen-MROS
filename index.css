@@ -19,12 +19,12 @@ img{
 @media print {
     body {
         background-image: url("deep-inverted.jpg");
-        color: blue;
+        color: #000000;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
     a {
-        color: black;
+        color: #000000;
     }
     button {
         display: none;

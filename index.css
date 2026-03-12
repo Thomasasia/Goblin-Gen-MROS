@@ -17,8 +17,14 @@ img{
     max-width:600px;
 }
 @media print {
-    html {
-        filter: invert(1);
+    body {
+        background-image: url("deep-inverted.jpg");
+        color: blue;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    a {
+        color: black;
     }
     button {
         display: none;

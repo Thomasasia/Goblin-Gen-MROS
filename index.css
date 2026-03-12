@@ -16,3 +16,8 @@ img{
     width:50%;
     max-width:600px;
 }
+@media print {
+    html {
+        filter: invert(1);
+    }
+}
